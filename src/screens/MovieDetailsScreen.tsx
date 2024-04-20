@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { View, Text, Image, ActivityIndicator, StyleSheet } from 'react-native';
-import { Movie } from '../InnerApp';
+import { Movie } from '../../InnerApp';
 
 const MovieDetailsScreen: React.FC<{ route: any }> = ({ route }) => {
   const { movie }: { movie: Movie } = route.params;
@@ -30,7 +30,7 @@ const MovieDetailsScreen: React.FC<{ route: any }> = ({ route }) => {
   );
 };
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create({   // TODO: styles need to be in separate style sheet file styles.tsx
   container: {
     flex: 1,
     padding: 20,

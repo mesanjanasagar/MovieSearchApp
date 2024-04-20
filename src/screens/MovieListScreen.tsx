@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from 'react';
 import {
   View,
   Text,
@@ -8,14 +8,33 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   StyleSheet,
-} from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import Icon from "react-native-vector-icons/FontAwesome";
+} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import {useMovieListing} from 'fetch-movies';
+import {useDispatch, useSelector} from 'react-redux';
+import {setData} from '../app/movies.slice';
+import { RootState } from '../app/store';
 
-const MovieListScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
-  const { searchText, setSearchText, searchMovies, loading, error, movies , maxMoviesDisplayed} =
-    useMovieListing(fetch, React, );
+const MovieListScreen: React.FC<{navigation: any}> = ({navigation}) => {
+  const {
+    searchText,
+    setSearchText,
+    searchMovies,
+    loading,
+    error,
+    movies,
+    maxMoviesDisplayed,
+  } = useMovieListing(fetch, React);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if(movies.length > 0){
+      dispatch(setData(movies));
+    }
+  }, [movies]);
+
+  const data = useSelector((state: RootState) => state.movies);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -41,25 +60,24 @@ const MovieListScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
         <Text style={styles.errorText}>{error}</Text>
       ) : movies && movies?.length ? (
         <FlatList
-          data={movies.slice(0, maxMoviesDisplayed)}
-          renderItem={({ item }) => (
+          data={data.slice(0, maxMoviesDisplayed)}
+          renderItem={({item}) => (
             <TouchableOpacity
               onPress={() =>
-                navigation.navigate("MovieDetails", { movie: item })
-              }
-            >
+                navigation.navigate('MovieDetails', {movie: item})
+              }>
               <View style={styles.movieItemBorder}>
                 <View style={styles.movieItem}>
                   <Image
-                    source={{ uri: item["#IMG_POSTER"] }}
+                    source={{uri: item['#IMG_POSTER']}}
                     style={styles.posterImage}
                   />
                 </View>
-                <Text style={styles.movieTitle}>{item["#TITLE"]}</Text>
+                <Text style={styles.movieTitle}>{item['#TITLE']}</Text>
               </View>
             </TouchableOpacity>
           )}
-          keyExtractor={(item) => item["#IMDB_ID"]}
+          keyExtractor={item => item['#IMDB_ID']}
         />
       ) : (
         <Text>No Movies Found</Text>
@@ -69,19 +87,20 @@ const MovieListScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  // TODO: styles need to be in separate style sheet file styles.tsx
   container: {
     flex: 1,
     padding: 10,
   },
   searchContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     marginBottom: 10,
   },
   input: {
     flex: 1,
     height: 40,
-    borderColor: "gray",
+    borderColor: 'gray',
     borderWidth: 1,
     marginRight: 10,
     paddingHorizontal: 10,
@@ -94,23 +113,23 @@ const styles = StyleSheet.create({
   },
   errorText: {
     marginTop: 20,
-    color: "red",
+    color: 'red',
   },
   movieItemBorder: {
     marginBottom: 10,
     padding: 10,
     borderWidth: 2,
-    borderColor: "#ccc",
+    borderColor: '#ccc',
     borderRadius: 5,
-    alignItems: "center",
+    alignItems: 'center',
   },
 
   movieItem: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     borderWidth: 2,
-    justifyContent: "center",
-    borderColor: "#fff",
+    justifyContent: 'center',
+    borderColor: '#fff',
   },
   posterImage: {
     width: 100,
@@ -118,7 +137,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   movieTitle: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
 });
 

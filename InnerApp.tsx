@@ -31,8 +31,8 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import MovieListScreen from './screens/MovieListScreen';
-import MovieDetailsScreen from './screens/MovieDetailsScreen';
+import MovieListScreen from './src/screens/MovieListScreen';
+import MovieDetailsScreen from './src/screens/MovieDetailsScreen';
 
 // Define types for movie data
 export interface Movie {

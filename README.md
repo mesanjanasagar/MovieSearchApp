@@ -17,6 +17,10 @@ Android studio Flamingo 2022.2.1 Patch 2
 
 Node 20.8.1
 
+java-17 (android setup)
+
+ruby-version 3.2.2
+
 # Installation
 
 > yarn
@@ -31,6 +35,10 @@ To run the app from Terminal, follow these steps:
 2. Run command Yarn start
 3. Run i
 4. Run r (for refresh)
+
+To resolve Pods issues ,follow these steps:
+ 1. cd ios
+ 2. npx pod-install
 
 
 ### Running the android App from Terminal
